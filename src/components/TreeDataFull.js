@@ -142,8 +142,8 @@ export default function TreeDataFull() {
   }, []);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ height: 400, mt: 1 }}>
+    <Box sx={{  width: '100%' }}>
+      <Box sx={{ height:'80vh', mt: 1 }}>
         <StyledDataGridPro
           treeData
           rows={rows}
