@@ -4,13 +4,13 @@ const convertDataStructure = (data) => {
     const transformJob = (job) => {
       const baseNode = {
         id: `${job.id}`,
-        label: `Job Num: ${job.jobNum}`,
+        label: `Job Num: ${job.jobNum} | Part Num: ${job.partnum} | Job Output: ${job.jobOutput} | Issue Qty: ${job.issueQty} | Job Status: ${job.jobStatus} | `,
         children: [
-          { id: `part-${job.id}`, label: `Part Num: ${job.partnum}` },
-          { id: `output-${job.id}`, label: `Job Output: ${job.jobOutput}` },
-          { id: `issue-${job.id}`, label: `Issue Qty: ${job.issueQty}` },
-          { id: `status-${job.id}`, label: `Job Status: ${job.jobStatus}` },
-          { id: `lot-${job.id}`, label: `Lot Number: ${job.lotNum}` }
+          // { id: `part-${job.id}`, label: `Part Num: ${job.partnum}` },
+          // { id: `output-${job.id}`, label: `Job Output: ${job.jobOutput}` },
+          // { id: `issue-${job.id}`, label: `Issue Qty: ${job.issueQty}` },
+          // { id: `status-${job.id}`, label: `Job Status: ${job.jobStatus}` },
+          // { id: `lot-${job.id}`, label: `Lot Number: ${job.lotNum}` }
         ]
       };
   

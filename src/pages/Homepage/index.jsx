@@ -43,9 +43,9 @@ const renderComponent = (nodeId) => {
 const theme = createTheme({
   palette: {
     secondary: {
-      light: "#e87975",
-      main: "#e8211a",
-      dark: "#a30a05",
+      light: "#e691b9",
+      main: "#d10d69",
+      dark: "#91114d",
       contrastText: "#fff",
     },
     primary: {
