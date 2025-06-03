@@ -22,9 +22,12 @@ function transformDataToTreeFormat(data, parentPath = []) {
       jobStatus: item.jobStatus,
     });
 
-    if (item.children && item.children.length > 0) {
-      const childrenTransformed = transformDataToTreeFormat(item.children, currentPath);
-      result = result.concat(childrenTransformed);
+    // if (item.children && item.children.length > 0) {
+    //   const childrenTransformed = transformDataToTreeFormat(item.children, currentPath);
+    //   result = result.concat(childrenTransformed);
+    // }
+     if (item.children?.length) {
+      result = result.concat(transformDataToTreeFormat(item.children, currentPath));
     }
   });
 
