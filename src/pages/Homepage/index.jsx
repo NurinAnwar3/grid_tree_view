@@ -15,6 +15,7 @@ import GmailTreeView from "../../components/GmailTreeView";
 import FileExplorerTreeView from "../../components/FileExplorerTreeView";
 import DragDropDemo from "../../components/PrimeReactTree";
 import ArboristTreeView from "../../components/ArboristTreeView";
+import TreeDataFullExample from "../../components/TreeDataFull";
 import { yellow } from "@mui/material/colors";
 
 
@@ -25,6 +26,7 @@ const dataList = [
     children: [
       { id: "job", label: "Job" },
       { id: "material", label: "Material" },
+      { id: "employee", label: "Employee" },
     ],
   },
 ];
@@ -35,6 +37,8 @@ const renderComponent = (nodeId) => {
       return <BasicRichTreeView />;
     case "material":
       return <BasicSimpleTreeView />;
+    case "employee":
+      return <TreeDataFullExample />;
     default:
       return <Typography>Select a component from the tree.</Typography>;
   }
@@ -166,7 +170,7 @@ export default function Homepage() {
             />
           </Grid>
 
-          <Grid item xs={3} sx={{ p: 2 }}>
+          <Grid size={10} item xs={3} sx={{ p: 2 }}>
             <Typography variant="h6">Section B</Typography>
             {renderComponent(selectedNode)}
           </Grid>
