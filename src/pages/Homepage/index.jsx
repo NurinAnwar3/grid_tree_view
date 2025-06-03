@@ -12,7 +12,6 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import BasicSimpleTreeView from "../../components/BasicSimpleTreeView";
 import BasicRichTreeView from "../../components/BasicRichTreeView";
 import GmailTreeView from "../../components/GmailTreeView";
-import FileExplorerTreeView from "../../components/FileExplorerTreeView";
 import DragDropDemo from "../../components/PrimeReactTree";
 import ArboristTreeView from "../../components/ArboristTreeView";
 import TreeDataFullExample from "../../components/TreeDataFull";
@@ -25,8 +24,9 @@ const dataList = [
     label: "Module",
     children: [
       { id: "job", label: "Job" },
-      { id: "material", label: "Material" },
+      // { id: "material", label: "Material" },
       { id: "employee", label: "Employee" },
+      { id: "search", label: "Material" },
     ],
   },
 ];
@@ -35,10 +35,12 @@ const renderComponent = (nodeId) => {
   switch (nodeId) {
     case "job":
       return <BasicRichTreeView />;
-    case "material":
-      return <BasicSimpleTreeView />;
+    // case "material":
+    //   return <BasicSimpleTreeView />;
     case "employee":
       return <TreeDataFullExample />;
+      case "search":
+      return <ArboristTreeView />;
     default:
       return <Typography>Select a component from the tree.</Typography>;
   }
@@ -47,9 +49,9 @@ const renderComponent = (nodeId) => {
 const theme = createTheme({
   palette: {
     secondary: {
-      light: "#e87975",
-      main: "#e8211a",
-      dark: "#a30a05",
+      light: "#e691b9",
+      main: "#d10d69",
+      dark: "#91114d",
       contrastText: "#fff",
     },
     primary: {
@@ -61,48 +63,26 @@ const theme = createTheme({
   },
 });
 
-const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-  { field: "name", headerName: "Task Name", width: 150 },
-  { field: "status", headerName: "Status", width: 150 },
-];
 
-const sectionBMap = {
-  module1: [
-    { id: "module1-job", label: "Module 1 - Job" },
-    { id: "module1-material", label: "Module 1 - Material" },
-  ],
-  module2: [
-    { id: "module2-job", label: "Module 2 - Job" },
-    { id: "module2-material", label: "Module 2 - Material" },
-  ],
-};
 
-const sectionCMap = {
-  "module1-job": [
-    { id: 1, name: "Task A", status: "Pending" },
-    { id: 2, name: "Task B", status: "Completed" },
-  ],
-  "module2-job": [
-    { id: 3, name: "Task C", status: "Ongoing" },
-    { id: 4, name: "Task D", status: "Pending" },
-  ],
-};
+
+
+
 
 export default function Homepage() {
   const [selectedNode, setSelectedNode] = useState(null);
 
-  const [sectionBItems, setSectionBItems] = useState([]);
-  const [sectionCItems, setSectionCItems] = useState([]);
+  // const [sectionBItems, setSectionBItems] = useState([]);
+  // const [sectionCItems, setSectionCItems] = useState([]);
 
   const handleSectionAClick = (event, itemId) => {
-    setSectionBItems(sectionBMap[itemId] || []);
-    setSectionCItems([]); // clear grid view
+    // setSectionBItems(sectionBMap[itemId] || []);
+    // setSectionCItems([]); // clear grid view
   };
 
-  const handleSectionBClick = (id) => {
-    setSectionCItems(sectionCMap[id] || []);
-  };
+  // const handleSectionBClick = (id) => {
+  //   setSectionCItems(sectionCMap[id] || []);
+  // };
 
   const handleItemSelectionToggle = (event, itemId, isSelected) => {
     if (isSelected) {
