@@ -16,6 +16,7 @@ import DragDropDemo from "../../components/PrimeReactTree";
 import ArboristTreeView from "../../components/ArboristTreeView";
 import TreeDataFullExample from "../../components/TreeDataFull";
 import { yellow } from "@mui/material/colors";
+import MuiTreedata from "../../components/MuiTreeData";
 
 
 const dataList = [
@@ -27,6 +28,7 @@ const dataList = [
       // { id: "material", label: "Material" },
       { id: "employee", label: "Employee" },
       { id: "search", label: "Material" },
+      { id: "mui", label: "Mui Tree" },
     ],
   },
 ];
@@ -41,6 +43,8 @@ const renderComponent = (nodeId) => {
       return <TreeDataFullExample />;
       case "search":
       return <ArboristTreeView />;
+    case "mui":
+      return <MuiTreedata />;
     default:
       return <Typography>Select a component from the tree.</Typography>;
   }
@@ -64,25 +68,12 @@ const theme = createTheme({
 });
 
 
-
-
-
-
-
 export default function Homepage() {
   const [selectedNode, setSelectedNode] = useState(null);
 
-  // const [sectionBItems, setSectionBItems] = useState([]);
-  // const [sectionCItems, setSectionCItems] = useState([]);
-
   const handleSectionAClick = (event, itemId) => {
-    // setSectionBItems(sectionBMap[itemId] || []);
-    // setSectionCItems([]); // clear grid view
+    console.log(`Nodes ${itemId} is clicked`);
   };
-
-  // const handleSectionBClick = (id) => {
-  //   setSectionCItems(sectionCMap[id] || []);
-  // };
 
   const handleItemSelectionToggle = (event, itemId, isSelected) => {
     if (isSelected) {

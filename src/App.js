@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Login from "./pages/login";
 import Dashboard from "./dashboard";
 import Homepage from './pages/Homepage/index'
+//import { LicenseInfo } from '@mui/x-license-pro'
+
+//LicenseInfo.setLicenseKey(process.env.REACT_APP_MUI_LICENSE_KEY);
 
 function App() {
   return (
