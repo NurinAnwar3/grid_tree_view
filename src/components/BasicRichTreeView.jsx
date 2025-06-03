@@ -37,11 +37,11 @@ import FolderRounded from "@mui/icons-material/FolderRounded";
 import ImageIcon from "@mui/icons-material/Image";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
-import convertDataStructure from "../utils/convertDataStructure";
+import convertDataStructure2 from "../utils/convertDataStructure2";
 
 const treeData = transformInvoiceData(data);
 const treeData2 = transformInvoiceData(data2);
-const treeData3 = convertDataStructure(data3);
+const treeData3 = convertDataStructure2(data3);
 
 function DotIcon() {
   return (
