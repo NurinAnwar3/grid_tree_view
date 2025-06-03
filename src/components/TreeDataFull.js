@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import transformDataToTreeFormat from '../utils/dataTransformer';
 import axios from 'axios';
 import { useApiClient } from "../context/ApiClientContext";
+import { darken, lighten, styled } from '@mui/material/styles';
 
 const makeBoldHeader = (label) => () => <strong>{label}</strong>;
 
@@ -72,6 +73,52 @@ const columns = [
 
 const getTreeDataPath = (row) => row.hierarchy;
 
+const getBackgroundColor = (color, theme, coefficient) => ({
+  backgroundColor: darken(color, coefficient),
+  ...theme.applyStyles('light', {
+    backgroundColor: lighten(color, coefficient),
+  }),
+});
+
+const StyledDataGridPro = styled(DataGridPro)(({ theme }) => ({
+  '& .super-app-theme--Open': {
+    ...getBackgroundColor(theme.palette.info.main, theme, 0.7),
+    '&:hover': {
+      ...getBackgroundColor(theme.palette.info.main, theme, 0.6),
+    },
+    '&.Mui-selected': {
+      ...getBackgroundColor(theme.palette.info.main, theme, 0.5),
+      '&:hover': {
+        ...getBackgroundColor(theme.palette.info.main, theme, 0.4),
+      },
+    },
+  },
+  '& .super-app-theme--Completed': {
+    ...getBackgroundColor(theme.palette.success.main, theme, 0.7),
+    '&:hover': {
+      ...getBackgroundColor(theme.palette.success.main, theme, 0.6),
+    },
+    '&.Mui-selected': {
+      ...getBackgroundColor(theme.palette.success.main, theme, 0.5),
+      '&:hover': {
+        ...getBackgroundColor(theme.palette.success.main, theme, 0.4),
+      },
+    },
+  },
+  '& .super-app-theme--InProgress': {
+    ...getBackgroundColor(theme.palette.warning.main, theme, 0.7),
+    '&:hover': {
+      ...getBackgroundColor(theme.palette.warning.main, theme, 0.6),
+    },
+    '&.Mui-selected': {
+      ...getBackgroundColor(theme.palette.warning.main, theme, 0.5),
+      '&:hover': {
+        ...getBackgroundColor(theme.palette.warning.main, theme, 0.4),
+      },
+    },
+  },
+}));
+
 export default function TreeDataFull() {
   const [rows, setRows] =  useState([]);
   const [loading, setLoading] = useState(true);
@@ -97,7 +144,7 @@ export default function TreeDataFull() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ height: 400, mt: 1 }}>
-        <DataGridPro
+        <StyledDataGridPro
           treeData
           rows={rows}
           columns={columns}
@@ -109,7 +156,8 @@ export default function TreeDataFull() {
             headerName: 'Job Number', 
             renderHeader: makeBoldHeader('Job Number'), 
             width: 200,
-  }}
+          }}
+          getRowClassName={(params) => `super-app-theme--${params.row.jobStatus}`}
         />
       </Box>
     </Box>
