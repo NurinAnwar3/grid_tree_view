@@ -7,11 +7,11 @@ import { useApiClient } from "../context/ApiClientContext";
 import { darken, lighten, styled } from "@mui/material/styles";
 
 const levelColors = {
-  1: "primary.light",
-  2: "success.light",
-  3: "error.light",
-  4: "warning.main",
-  default: "secondary.main",
+  1: "info.dark",
+  2: "info.main",
+  3: "primary.main",
+  4: "primary.light",
+  default: "primary.dark",
 };
 
 const getBackgroundColor = (color, theme, coefficient) => ({
@@ -211,7 +211,7 @@ export default function TreeDataFull({ filters, triggers }) {
   };
 
   return (
-    <Box sx={{ height: "100vh", mt: 1 }}>
+    <Box sx={{ height: "80vh", mt: 1 }}>
       <StyledByLevel
         density="compact"
         treeData
@@ -226,7 +226,6 @@ export default function TreeDataFull({ filters, triggers }) {
           hide: true,
           headerName: "ID",
               headerClassName: "super-app-theme--header",
-
           hideDescendantCount: true, // Hides the arrow column
         }}
         
