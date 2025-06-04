@@ -1,8 +1,8 @@
 import React from "react";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import SettingsIcon from "@mui/icons-material/Settings";
 import GradingIcon from "@mui/icons-material/Grading";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import {
   Box,
   List,
@@ -13,15 +13,12 @@ import {
   Divider,
   styled,
   Toolbar,
-  IconButton,
   Typography,
-  Grid,
+  Avatar,
 } from "@mui/material";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import Container from "@mui/material/Container";
 import MuiDrawer from "@mui/material/Drawer";
-import logo from "../assets/images/Logo-250/3.png";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import { yellow } from "@mui/material/colors";
+import { GppGood, Home, TrackChanges, Traffic } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -53,92 +50,87 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-const LeftMenuDrawer = ({roles, open, toggleDrawerCallback, logoutCallback }) => {
-  const roleid = localStorage.getItem('roleId')
+const LeftMenuDrawer = ({
+  open,
+  logoutCallback,
+}) => {
 
   return (
-    <Drawer variant="permanent" open={open} sx={{
-      '& .MuiDrawer-paper': {
-        borderRight: 'none',
-      },
-    }}> 
+    <Drawer
+      variant="permanent"
+      open={open}
+      sx={{
+        "& .MuiDrawer-paper": {
+          borderRight: "none",
+        },
+      }}
+    >
       <Box>
-        
-      <Toolbar
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          px: [1],
-        }}
-      >
-        <img src={logo} alt="image" width="60%" />
-
-        <IconButton onClick={toggleDrawerCallback} color="inherit">
-          <ChevronLeftIcon sx={{ color: "contrastText" }} />
-        </IconButton>
-      </Toolbar>
-      {/* <Divider /> */}
-      <List component="nav">
-       <ListItemButton component={Link} to="/">
-          <ListItemIcon
-            sx={{ color: (theme) => theme.palette.primary.contrastText }}
+        <Toolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            px: [1],
+          }}
+        >
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+           sx={{ 
+              flexGrow: 1,
+              ml: 1,
+              mt: 2,
+              fontWeight: 700,
+              textTransform: 'uppercase'
+            }}
           >
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItemButton>
-        {roles.allowar && <ListItemButton component={Link} to="/account-receivable">
-          <ListItemIcon
-            sx={{ color: (theme) => theme.palette.primary.contrastText }}
-          >
-            <GradingIcon />
-          </ListItemIcon>
-          <ListItemText primary="Account Receivable" />
-        </ListItemButton> }
-        {roles.allowap &&<ListItemButton component={Link} to="/account-payable">
-          <ListItemIcon
-            sx={{ color: (theme) => theme.palette.primary.contrastText }}
-          >
-            <GradingIcon />
-          </ListItemIcon>
-          <ListItemText primary="Account Payable" />
-        </ListItemButton> }
-
-        {roles.allowadmin && <ListItemButton component={Link} to="/setting">
-          <ListItemIcon
-            sx={{ color: (theme) => theme.palette.primary.contrastText }}
-          >
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Admin Setting" />
-        </ListItemButton> }
-
-        {roles.allowprofile && <ListItemButton component={Link} to="/profile">
-          <ListItemIcon
-            sx={{ color: (theme) => theme.palette.primary.contrastText }}
-          >
-            <AssignmentIndIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItemButton> }
-
-        {/* <Divider /> */}
-
-        {localStorage.getItem("token") ? (
-          <ListItemButton onClick={logoutCallback}>
+            Admin Dashboard
+          </Typography>       
+        </Toolbar>
+        <List component="nav">
+          <ListItemButton component={Link} to="/homepage">
             <ListItemIcon
-              sx={{
-                color: (theme) => theme.palette.primary.contrastText,
-              }}
+              sx={{ color: (theme) => theme.palette.primary.contrastText }}
             >
-              <ExitToAppIcon />
+              <Home />
             </ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText primary="Homepage" />
           </ListItemButton>
-        ) : null}
-      </List>
-      
+          <ListItemButton component={Link} to="/material">
+            <ListItemIcon
+              sx={{ color: (theme) => theme.palette.primary.contrastText }}
+            >
+              <QueryStatsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Material Tracking" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/finished-goods">
+            <ListItemIcon
+              sx={{ color: (theme) => theme.palette.primary.contrastText }}
+            >
+              <AssignmentTurnedInIcon />
+            </ListItemIcon>
+            <ListItemText primary="Finished Goods" />
+          </ListItemButton>
+
+          {/* <Divider /> */}
+
+          {localStorage.getItem("token") ? (
+            <ListItemButton onClick={logoutCallback}>
+              <ListItemIcon
+                sx={{
+                  color: (theme) => theme.palette.primary.contrastText,
+                }}
+              >
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          ) : null}
+        </List>
       </Box>
       {/* <Box style={{ flex: 1 }}>
       <Typography variant="small">v1.1.3</Typography>

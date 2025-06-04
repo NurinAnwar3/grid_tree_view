@@ -1,81 +1,52 @@
 import * as React from "react";
 import { DataGridPro } from "@mui/x-data-grid-pro";
-import transformDataToTreeFormat from "../utils/convertDataMuiTree";
+import { darken, lighten, styled } from "@mui/system";
 import axios from "axios";
 import { useApiClient } from "../context/ApiClientContext";
-import { GridRowClassNameParams } from '@mui/x-data-grid-pro'
-import { darken, lighten, styled } from "@mui/system";
+import transformDataToTreeFormat from "../utils/convertDataMuiTree";
 
+// Define color mapping for each level
+const levelColors = {
+  1: 'primary.light',    // Blue (level 1)
+  2: 'success.light',    // Green (level 2)
+  3: 'error.light',      // Red (level 3)
+  4 : 'warning.main',    // Yellow (level 4)
+  default: 'secondary.main' // Purple (others)
+};
 
 const getBackgroundColor = (color, theme, coefficient) => ({
-  backgroundColor: darken(color, coefficient),
+  backgroundColor: darken(theme.palette[color] || color, coefficient),
   ...theme.applyStyles('light', {
-    backgroundColor: lighten(color, coefficient),
+    backgroundColor: lighten(theme.palette[color] || color, coefficient),
   }),
 });
 
-const StyledDataGrid = styled(DataGridPro)(({ theme }) => ({
-  '& .row-depth-0': {
-    ...getBackgroundColor(theme.palette.primary.main, theme, 0.7),
-    '&:hover': {
-      ...getBackgroundColor(theme.palette.primary.main, theme, 0.6),
-    },
-    '&.Mui-selected': {
-      ...getBackgroundColor(theme.palette.primary.main, theme, 0.5),
+const StyledDataGrid = styled(DataGridPro)(({ theme }) => {
+  // Generate styles for each level dynamically
+  const styles = {};
+  
+  Object.entries(levelColors).forEach(([level, colorKey]) => {
+    const className = level === 'default' ? 'row-default' : `row-depth-${level}`;
+    const color = typeof colorKey === 'string' ? 
+                  theme.palette[colorKey.split('.')[0]]?.[colorKey.split('.')[1]] || colorKey : 
+                  colorKey;
+    
+    styles[`& .${className}`] = {
+      ...getBackgroundColor(color, theme, 0.7),
       '&:hover': {
-        ...getBackgroundColor(theme.palette.primary.main, theme, 0.4),
+        ...getBackgroundColor(color, theme, 0.6),
       },
-    },
-  },
-  '& .row-depth-1': {
-    ...getBackgroundColor(theme.palette.success.main, theme, 0.7),
-    '&:hover': {
-      ...getBackgroundColor(theme.palette.success.main, theme, 0.6),
-    },
-    '&.Mui-selected': {
-      ...getBackgroundColor(theme.palette.success.main, theme, 0.5),
-      '&:hover': {
-        ...getBackgroundColor(theme.palette.success.main, theme, 0.4),
+      '&.Mui-selected': {
+        ...getBackgroundColor(color, theme, 0.5),
+        '&:hover': {
+          ...getBackgroundColor(color, theme, 0.4),
+        },
       },
-    },
-  },
-  '&.row-depth-2': {
-    ...getBackgroundColor(theme.palette.warning.main, theme, 0.7),
-    '&:hover': {
-      ...getBackgroundColor(theme.palette.warning.main, theme, 0.6),
-    },
-    '&.Mui-selected': {
-      ...getBackgroundColor(theme.palette.warning.main, theme, 0.5),
-      '&:hover': {
-        ...getBackgroundColor(theme.palette.warning.main, theme, 0.4),
-      },
-    },
-  },
-  '&.row-depth-3': {
-    ...getBackgroundColor(theme.palette.secondary.main, theme, 0.7),
-    '&:hover': {
-      ...getBackgroundColor(theme.palette.secondary.main, theme, 0.6),
-    },
-    '&.Mui-selected': {
-      ...getBackgroundColor(theme.palette.secondary.main, theme, 0.5),
-      '&:hover': {
-        ...getBackgroundColor(theme.palette.secondary.main, theme, 0.4),
-      },
-    },
-  },
-  '& .row-default': {
-    ...getBackgroundColor(theme.palette.error.main, theme, 0.7),
-    '&:hover': {
-      ...getBackgroundColor(theme.palette.error.main, theme, 0.6),
-    },
-    '&.Mui-selected': {
-      ...getBackgroundColor(theme.palette.error.main, theme, 0.5),
-      '&:hover': {
-        ...getBackgroundColor(theme.palette.error.main, theme, 0.4),
-      },
-    },
-  },
-}));
+    };
+  });
+
+  return styles;
+});
 
 export default function TreeDataWithGap() {
   const [filteredTreeData, setFilteredTreeData] = React.useState([]);
@@ -83,7 +54,7 @@ export default function TreeDataWithGap() {
   const [partSearch, setPartSearch] = React.useState("");
   const [lotSearch, setLotSearch] = React.useState("");
   const [errors, setErrors] = React.useState({});
-    const [clickedRowId, setClickedRowId] = React.useState("");
+  const [clickedRowId, setClickedRowId] = React.useState("");
 
   const columns = [
     {
@@ -126,8 +97,7 @@ export default function TreeDataWithGap() {
   ];
 
   React.useEffect(() => {
-   searchData()
-    
+    searchData();
   }, []);
 
   const getTreeDataPath = (filteredTreeData) => filteredTreeData.hierarchy;
@@ -143,11 +113,7 @@ export default function TreeDataWithGap() {
           },
         }
       );
-      //console.log("response", response.data.jobs);
-
-      var convertData = transformDataToTreeFormat(response.data?.jobs)
-      //console.log('converted', convertData);
-      
+      const convertData = transformDataToTreeFormat(response.data?.jobs);
       setFilteredTreeData(convertData);
     } catch (error) {
       console.error("Search failed:", error);
@@ -155,39 +121,21 @@ export default function TreeDataWithGap() {
     }
   };
 
+  const getRowClassName = (params) => {
+    const depth = params.row.hierarchy?.length || 0;
+    // Levels are 0-indexed in your code (depth 0 = level 1, depth 1 = level 2, etc.)
+    return `row-depth-${depth > 3 ? 'default' : depth}`;
+  };
+
   return (
-    <div style={{ height: "80vh" , width: "100%" }}>
-      <DataGridPro
-        treeData = {true}
+    <div style={{ height: "80vh", width: "100%" }}>
+      <StyledDataGrid
+        treeData={true}
         rows={filteredTreeData}
         columns={columns}
         getTreeDataPath={getTreeDataPath}
-        onRowClick={(params) => {          
-          setClickedRowId(params.id);
-        }}
-        getRowClassName={(params) => {
-          // const isClicked = params.id === clickedRowId;
-          //console.log('depth', params.row.hierarchy + ' ' + 'length:' + params.row.hierarchy.length);
-          
-          const depth = params.row.hierarchy.length;
-          console.log('depth', depth);
-          var result;
-          if(depth === 0){
-             result = 'row-depth-0';
-          } else if(depth === 1){
-            result = 'row-depth-1'
-          } else if (depth === 2) {
-            result = 'row-depth-2'
-          }else if (depth === 3) {
-            result = 'row-depth-3'
-          }else if (depth === 4) {
-            result = 'row-depth-4'
-          } else {
-            result = 'row-default'
-          }
-
-          return result;
-        }}
+        onRowClick={(params) => setClickedRowId(params.id)}
+        getRowClassName={getRowClassName}
       />
     </div>
   );

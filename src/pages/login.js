@@ -12,29 +12,19 @@ import {
   FormHelperText,
   Typography,
   Paper,
-  ThemeProvider,
 } from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
 import { LockOutlined as LockOutlinedIcon, Visibility, VisibilityOff } from "@mui/icons-material";
 import { red } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { Container, createTheme } from "@mui/system";
-import PublicLayout from "../layouts/publicLayout";
-import CustomTheme from "../customTheme";
-import axios from 'axios';
-import { useApiClient } from "../context/ApiClientContext";
-
-const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const apiClient = useApiClient();
 
-  const validEmail = "123@gmail.com";
-  const validPassword = "123";
 
   const handleChange = (field, event) => {
     setData({ ...data, [field]: event.target.value });

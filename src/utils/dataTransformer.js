@@ -1,13 +1,24 @@
-// dataTransformer.js
+const seenIds = new Set();
 
 function transformDataToTreeFormat(data, parentPath = []) {
   let result = [];
 
   data.forEach(item => {
-    const currentPath = [...parentPath, item.jobNum]; // Use jobNum for hierarchy
+    
+    // if (seenIds.has(item.parentID+item.id)) {
+    //   console.warn("Duplicate ID detected during transform:", item.id + 'and ' + item.parentID);
+    // } else {
+    //   seenIds.add(item.parentID+item.id);
+    // }
+
+    
+    const uniqueLabel = `${item.parentID} (${item.id})`;
+    const currentPath = [...parentPath, uniqueLabel]; 
+    console.log('unique', uniqueLabel);
 
     result.push({
       id: item.id,
+      depth: currentPath.length,
       hierarchy: currentPath,
       jobNum: item.jobNum,
       partnum: item.partnum,

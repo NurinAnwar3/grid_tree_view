@@ -14,9 +14,8 @@ import ArboristTreeView from "../../components/ArboristTreeView";
 import TreeDataFullExample from "../../components/TreeDataFull";
 import { yellow } from "@mui/material/colors";
 import MuiTreedata from "../../components/MuiTreeData";
-import Material from "../material/index";
+import Material from "../material";
 import PrivateLayout from "../../layouts/privateLayout";
-import GridTreeDataBasic from "../../components/GridTreeDataBasic";
 
 
 const dataList = [
@@ -68,10 +67,77 @@ const theme = createTheme({
 
 
 export default function Homepage() {
+  const [selectedNode, setSelectedNode] = useState(null);
+
+  const handleSectionAClick = (event, itemId) => {
+    console.log(`Nodes ${itemId} is clicked`);
+  };
+
+  const handleItemSelectionToggle = (event, itemId, isSelected) => {
+    if (isSelected) {
+      setSelectedNode(itemId);
+    }
+  };
+
   return (
-    <PrivateLayout>
-      {/* <GridTreeDataBasic /> */}
-      <Typography>This is homepage</Typography>
-    </PrivateLayout>
+   <ThemeProvider>
+      <Box sx={{  overflow: "hidden" }}>
+         <CssBaseline />
+        <Box
+          sx={{
+            p: 2,
+            bgcolor: "#1976d2",
+            color: "white",
+            flexShrink: 0,
+            display: "flex",
+            justifyContent: "space-between",
+            // alignItems: "center", // optional: aligns vertically
+          }}
+        >
+          <Typography variant="h4">Dashboard</Typography>
+          <Typography variant="h6">
+            <Avatar sx={{ bgcolor: yellow[100], color: "black" }}>N</Avatar>
+          </Typography>
+        </Box>
+
+        <Grid container sx={{ flex: 1, }} spacing={2}>
+          <Grid
+            item
+            size={2}
+            xs={3}
+            sx={{
+              p: 2,
+              borderRight: "1px solid #ccc",
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <RichTreeView
+              items={dataList}
+              onItemSelectionToggle={handleItemSelectionToggle}
+              onClick={() => handleSectionAClick()}
+              slots={{
+                expandIcon: ChevronRightIcon,
+                collapseIcon: ExpandMoreIcon,
+              }}
+              sx={{
+                flex: 1,
+                 height: "100vh", overflow: "auto",
+                "& .MuiTreeItem-label": {
+                  fontSize: "0.875rem",
+                },
+              }}
+            />
+          </Grid>
+
+          <Grid size={10} sx={{ p: 2 }}>
+            {renderComponent(selectedNode)}
+          </Grid>
+
+        </Grid>
+      </Box>
+    </ThemeProvider>
   );
 }
