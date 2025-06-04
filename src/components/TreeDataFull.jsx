@@ -26,76 +26,88 @@ const makeBoldHeader = (label) => () => <strong>{label}</strong>;
 const columns = [
   {
     field: "jobNum",
-    renderHeader: makeBoldHeader("Job Number"),
+    headerName: "Job Number",
+    headerClassName: "super-app-theme--header",
+
     width: 200,
-    hideable: false
+    hideable: false,
   },
   {
     field: "partnum",
-    renderHeader: makeBoldHeader("Part Number"),
+    headerName: "Part Number",
+    headerClassName: "super-app-theme--header",
     width: 200,
   },
   {
     field: "partDescription",
-    renderHeader: makeBoldHeader("Description"),
+    headerName: "Description",
+    headerClassName: "super-app-theme--header",
     width: 300,
   },
   {
     field: "lotNum",
-    renderHeader: makeBoldHeader("Lot Number"),
+    headerName: "Lot Number",
+    headerClassName: "super-app-theme--header",
     width: 150,
   },
   {
     field: "jobOutput",
-    renderHeader: makeBoldHeader("Job Output"),
+    headerName: "Job Output",
+    headerClassName: "super-app-theme--header",
     type: "number",
     width: 120,
   },
   {
     field: "actualOutput",
-    renderHeader: makeBoldHeader("Actual Output"),
+    headerName: "Actual Output",
+    headerClassName: "super-app-theme--header",
     type: "number",
     width: 130,
   },
   {
     field: "issueQty",
-    renderHeader: makeBoldHeader("Issue Qty"),
+    headerName: "Issue Qty",
+    headerClassName: "super-app-theme--header",
     type: "number",
     width: 100,
   },
   {
     field: "requiredQty",
-    renderHeader: makeBoldHeader("Job Required Qty"),
+    headerName: "Job Required Qty",
+    headerClassName: "super-app-theme--header",
     type: "number",
     width: 120,
   },
   {
     field: "actRequiredQty",
-    renderHeader: makeBoldHeader("Actual Req. Qty"),
+    headerName: "Actual Req. Qty",
+    headerClassName: "super-app-theme--header",
     type: "number",
     width: 130,
   },
   {
     field: "variance",
-    renderHeader: makeBoldHeader("Variance"),
+    headerName: "Variance",
+    headerClassName: "super-app-theme--header",
     width: 100,
   },
   {
     field: "jobStatus",
-    renderHeader: makeBoldHeader("Status"),
+    headerName: "Status",
+    headerClassName: "super-app-theme--header",
     width: 120,
   },
 ];
 
-const getTreeDataPath = (row) =>{
- return row.hierarchy;}
+const getTreeDataPath = (row) => {
+  return row.hierarchy;
+};
 
 const StyledByLevel = styled(DataGridPro)(({ theme }) => {
   // Generate styles for each level dynamically
   const styles = {};
 
   Object.entries(levelColors).forEach(([level, colorKey]) => {
-    
     const className =
       level === "default" ? "row-default" : `row-depth-${level}`;
     const color =
@@ -167,34 +179,34 @@ export default function TreeDataFull({ filters, triggers }) {
 
   useEffect(() => {
     fetchTreeData();
-  }, [triggers]); 
+  }, [triggers]);
 
-   async function fetchTreeData() {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `${apiClient}/Job/GetNestedShowChildren`,
-          {
-            params: {
-              partnum: filters.partNumber,
-              lotnum: filters.lotNumber,
-            },
-          }
-        );
-        const data = response.data.jobs;        
-        const transformed = transformDataToTreeFormat(data);
+  async function fetchTreeData() {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `${apiClient}/Job/GetNestedShowChildren`,
+        {
+          params: {
+            partnum: filters.partNumber,
+            lotnum: filters.lotNumber,
+          },
+        }
+      );
+      const data = response.data.jobs;
+      const transformed = transformDataToTreeFormat(data);
 
-        setRows(transformed);
-      } catch (error) {
-        console.log("Error loading tree data: ", error);
-      } finally {
-        setLoading(false);
-      }
+      setRows(transformed);
+    } catch (error) {
+      console.log("Error loading tree data: ", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
   const getRowClassName = (params) => {
     const depth = params.row.hierarchy?.length || 0;
-    
+
     return `row-depth-${depth <= 0 ? "default" : depth}`;
   };
 
@@ -204,16 +216,39 @@ export default function TreeDataFull({ filters, triggers }) {
         density="compact"
         treeData
         rows={rows}
-        columns={columns}
+  columns={columns.filter((col) => col.field !== "id")} // Hide "id" column
+          columnVisibilityModel={{ id: false }} // Hide the "id" column
+
         getTreeDataPath={getTreeDataPath}
         loading={loading}
         groupingColDef={{
-          headerName: "id",
-          renderHeader: makeBoldHeader("Id"),
+          field: "id",
+          hide: true,
+          headerName: "ID",
+              headerClassName: "super-app-theme--header",
+
           hideDescendantCount: true, // Hides the arrow column
         }}
-       disableChildrenFiltering = {true}
+        
+        disableChildrenFiltering={true}
         getRowClassName={getRowClassName}
+        sx={{
+          "&.MuiDataGrid-root": {
+            border: "none",
+          },
+          ".MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
+          "& .MuiDataGrid-columnHeaderTitle": {
+            fontWeight: "bold",
+          },
+          "& .super-app-theme--header": {
+            backgroundColor: "rgb(227, 230, 233)",
+          },
+          "& .MuiDataGrid-filler": {
+            backgroundColor: "rgb(227, 230, 233)",
+          },
+        }}
       />
     </Box>
   );

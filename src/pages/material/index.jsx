@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CssBaseline,
+  Divider,
   Grid,
   TextField,
   ThemeProvider,
@@ -27,7 +28,6 @@ export default function Material() {
   const handleSearch = () => {
     setSearchTrigger((prev) => 
       {
-        console.log('prev', prev);
        return prev + 1
       }
       );
@@ -36,7 +36,7 @@ export default function Material() {
   return (
     <PrivateLayout>
       <Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={5}>
           <Typography
             fontWeight="bold"
             sx={{ textTransform: "uppercase" }}
@@ -82,8 +82,9 @@ export default function Material() {
             </Button>
           </Grid>
         </Grid>
+        {/* <Divider sx={{ my:3 , border: "1px solid rgb(122, 116, 116)", display: "flex" }}/> */}
 
-        <Box sx={{ p: 2, border: "1px solid #eee", display: "flex" }}>
+        <Box sx={{ mb: 3, p: 2, border: "1px solid #eee ", display: "flex", backgroundColor: 'rgb(233, 227, 227)' }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <Typography>
               <strong>Total Purchase:</strong> 200 kg
@@ -94,6 +95,7 @@ export default function Material() {
             </Typography>
           </Stack>
         </Box>
+        {/* <Divider sx={{ my:3 , border: "1px solid rgb(122, 116, 116)", display: "flex" }}/> */}
         <WarehouseSection />
         <Section2 />
         <TreeDataFull filters={filters} triggers={searchTrigger} />

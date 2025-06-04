@@ -11,14 +11,15 @@ import FinishedGoods from './pages/FInishedGoods/index'
 
 function App() {
   return (
+    
     <Router>
       <Routes>
-        <Route path="/login" element={<Navigate to="/login" />} />
+        {/* <Route path="/login" element={<Navigate to="/login" />} /> */}
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/homepage" element={<Homepage />} />
         <Route path="/material" element={<Material />} />
         <Route path="/finished-goods" element={<FinishedGoods />} />
-
       </Routes>
     </Router>
   );

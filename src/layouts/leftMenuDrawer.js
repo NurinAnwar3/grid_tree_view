@@ -118,8 +118,8 @@ const LeftMenuDrawer = ({
 
           {/* <Divider /> */}
 
-          {localStorage.getItem("token") ? (
-            <ListItemButton onClick={logoutCallback}>
+          
+            <ListItemButton component={Link} to="/login">
               <ListItemIcon
                 sx={{
                   color: (theme) => theme.palette.primary.contrastText,
@@ -129,7 +129,7 @@ const LeftMenuDrawer = ({
               </ListItemIcon>
               <ListItemText primary="Logout" />
             </ListItemButton>
-          ) : null}
+        
         </List>
       </Box>
       {/* <Box style={{ flex: 1 }}>
